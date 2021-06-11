@@ -24,7 +24,7 @@ func Config() {
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=true&loc=Local", dbUser, dbPass, dbHost, dbPort, dbName)
 
-	_, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	_, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		panic(err.Error())
