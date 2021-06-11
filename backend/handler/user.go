@@ -16,4 +16,9 @@ func NewUserHandler(userService user.Service) *userHandler {
 
 func (h *userHandler) RegisterUserHandler(c *gin.Context) {
 	var inputUser entities.UserInput
+
+	if err := c.ShouldBindJSON(&inputUser); err != nil {
+		return err.Error()
+	}
+	helper.
 }
