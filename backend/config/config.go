@@ -2,7 +2,6 @@ package config
 
 import (
 	"fmt"
-	"latihan-assesment-radika/entities"
 	"log"
 	"os"
 
@@ -31,8 +30,8 @@ func Config() *gorm.DB {
 		panic(err.Error())
 	}
 
-	db.AutoMigrate(&entities.User{})
-	db.AutoMigrate(&entities.Book{})
+	// db.AutoMigrate(&entities.User{})
+	// db.AutoMigrate(&entities.Book{})
 
 	return db
 }
