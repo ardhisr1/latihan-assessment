@@ -34,15 +34,26 @@ type LoginResponseFormat struct {
 	Authorization string
 }
 
+func FormatingLoginResponse(user entities.User, token string) LoginResponseFormat {
+	LoginResponse := LoginResponseFormat{
+		ID:            user.ID,
+		Name:          user.Name,
+		Email:         user.Email,
+		DateBirth:     user.DateBirth,
+		Address:       user.Address,
+		Authorization: token,
+	}
+
+	return LoginResponse
+}
+
 type DeleteFormat struct {
 	Message string `json:"data`
 }
 
 func FormattingDeleteUser(msg string) DeleteFormat {
-	DeleteFormat{
-		var deleteFormat = DeleteFormat{
-			Message: msg
-		}
-		return deleteFormat
+	var deleteFormat = DeleteFormat{
+		Message: msg,
 	}
+	return deleteFormat
 }

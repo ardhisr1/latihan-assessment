@@ -10,8 +10,9 @@ import (
 )
 
 type Service interface {
-	GetAllUser() ([]UserFormat, error)
+	GetAllUser() (UserFormat, error)
 	SaveNewUser(user entities.UserInput) (UserFormat, error)
+	UpdateUserByID(id string, input entities.UserUpdateInput) (UserFormat, error)
 	DeleteUserBYID(id string) (interface{}, error)
 	GetUserByID(id string) (UserFormat, error)
 	LoginUser(user entities.LoginUser) (LoginResponseFormat, error)
@@ -105,7 +106,7 @@ func (s *service) UpdateUserByID(id string, input entities.UserUpdateInput) (Use
 
 }
 
-func (s *service) DeleteUserBYID(id string) (interface{}, error) {
+func (s *service) DeleteUserBYID(id string) (string, error) {
 	user, err := s.repository.FindByID(id)
 
 	if err != nil {
@@ -124,14 +125,34 @@ func (s *service) DeleteUserBYID(id string) (interface{}, error) {
 	}
 	msg := fmt.Sprintf("user id %s success deleted", id)
 
-	formatDelete := FormattingDeleteUser(msg)
-	return formatDelete
+	return msg
 }
 
 func (s *service) GetUserByID(id string) (UserFormat, error) {
+	user, err := s.repository.FindByID(id)
 
+	if err != nil {
+		return UserFormat{}, err
+	}
+
+	if user.ID == 0 {
+		newError := fmt.Sprintf("user id not found")
+		return nil, errors.New(newError)
+	}
+
+	formatUser := FormattingUser(user)
+	return formatUser, nil
 }
 
 func (s *service) LoginUser(user entities.LoginUser) (LoginResponseFormat, error) {
+	userGet, err := s.repository.FIndByEmail(user.Email)
+	if err != nil {
+		return LoginResponseFormat{}, err
+	}
 
+	if err := bcrypt.CompareHashAndPassword([]byte(userGet.Password), []byte(user.Password)); err != nil {
+		return LoginResponseFormat{}, errors.New("Password Invalid")
+	}
+	formatLogin := FormatingLoginResponse(userGet, "TEST")
+	return formatLogin
 }

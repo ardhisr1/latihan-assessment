@@ -12,6 +12,7 @@ type Repository interface {
 	UpdateById(id string, dataUp map[string]interface{}) (entities.User, error)
 	DeleteById(id string) (string, error)
 	FindByID(id string) (entities.User, error)
+	FIndByEmail(email string) (entities.User, error)
 }
 
 type repository struct {
@@ -66,6 +67,16 @@ func (r *repository) FindByID(id string) (entities.User, error) {
 	var user entities.User
 
 	if err := r.db.Where("user_id = ", id).Find(&user).Error; err != nil {
+		return user, err
+	}
+
+	return user, nil
+}
+
+func (r *repository) FIndByEmail(emal string) (entities.User, error) {
+	var user entities.User
+
+	if err := r.db.Where("email = ", email).Find(&user).Error; err != nil {
 		return user, err
 	}
 
