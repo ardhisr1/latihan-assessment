@@ -27,3 +27,8 @@ type UserUpdateInput struct {
 	DateBirth time.Time `json:"date_birth" binding:"required"`
 	Address   string    `json:"address"`
 }
+
+type LoginUser struct {
+	Email    string `json:"email" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}

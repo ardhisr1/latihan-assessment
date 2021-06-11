@@ -24,3 +24,25 @@ func FormattingUser(user entities.User) UserFormat {
 
 	return UserFormat
 }
+
+type LoginResponseFormat struct {
+	ID            int       `json:"user_id"`
+	Name          string    `json:"name"`
+	Email         string    `json:"email"`
+	DateBirth     time.Time `json:"date_birth"`
+	Address       string    `json:"address"`
+	Authorization string
+}
+
+type DeleteFormat struct {
+	Message string `json:"data`
+}
+
+func FormattingDeleteUser(msg string) DeleteFormat {
+	DeleteFormat{
+		var deleteFormat = DeleteFormat{
+			Message: msg
+		}
+		return deleteFormat
+	}
+}
