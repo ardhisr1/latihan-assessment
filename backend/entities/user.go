@@ -11,7 +11,7 @@ type User struct {
 	Password   string    `json:"password"`
 	Created_at time.Time `json:"created_at"`
 	Updated_at time.Time `json:"updated_at"`
-	//Books      []Book    `gorm:"foreignKey:UserID"`
+	Books      []Book    `gorm:"foreignKey:UserID"`
 }
 
 type UserInput struct {
