@@ -144,15 +144,15 @@ func (s *service) GetUserByID(id string) (UserFormat, error) {
 	return formatUser, nil
 }
 
-func (s *service) LoginUser(user entities.LoginUser) (LoginResponseFormat, error) {
-	userGet, err := s.repository.FIndByEmail(user.Email)
+func (s *service) LoginUser(user entities.LoginUser) (entities.User, error) {
+	userGet, err := s.repository.FindByEmail(user.Email)
 	if err != nil {
-		return LoginResponseFormat{}, err
+		return entities.User{}, err
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(userGet.Password), []byte(user.Password)); err != nil {
-		return LoginResponseFormat{}, errors.New("Password Invalid")
+		return entities.User{}, errors.New("Password Invalid")
 	}
-	formatLogin := FormatingLoginResponse(userGet, "TEST")
-	return formatLogin
+
+	return userGet
 }
