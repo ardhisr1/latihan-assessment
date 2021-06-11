@@ -31,3 +31,43 @@ func (r *repository) FindAll() ([]entities.User, error) {
 
 	return users, nil
 }
+
+func (r *repository) Create(user entities.User) (entities.User, error) {
+	if err := r.db.Create(&user).Error; err != nil {
+		return user, err
+	}
+
+	return user, nil
+}
+
+func (r *repository) UpdateById(id string, dataUp map[string]interface{}) (entities.User, error) {
+	var user entities.User
+
+	if err := r.db.Model(&user).Where("user_id = ?", id).Updates(dataUp).Error; err != nil {
+		return user, err
+	}
+
+	if err := r.db.Where("user_id = ?", id).Find(&user).Error; err != nil {
+		return user, err
+	}
+
+	return user, nil
+}
+
+func (r *repository) DeleteById(id string) (string, error) {
+	if err := r.db.Where("user_id = ?", id).Delete(&entities.User{}).Error; err != nil {
+		return "error", err
+	}
+
+	return "succes", nil
+}
+
+func (r *repository) FindByID(id string) (entities.User, error) {
+	var user entities.User
+
+	if err := r.db.Where("user_id = ", id).Find(&user).Error; err != nil {
+		return user, err
+	}
+
+	return user, nil
+}
